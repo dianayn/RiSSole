@@ -15,6 +15,8 @@
 		E83465AC2475F630001D7267 /* RiSSoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465AB2475F630001D7267 /* RiSSoleTests.swift */; };
 		E83465B72475F6AD001D7267 /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465B62475F6AD001D7267 /* RSSParser.swift */; };
 		E8855AFD2476156200F337F1 /* FeedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8855AFC2476156200F337F1 /* FeedListViewController.swift */; };
+		E8855AFF2476309E00F337F1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8855AFE2476309E00F337F1 /* DescriptionViewController.swift */; };
+		E895F90224764DD500F74C4A /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F90124764DD500F74C4A /* DataFetcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		E83465AD2475F630001D7267 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E83465B62475F6AD001D7267 /* RSSParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
 		E8855AFC2476156200F337F1 /* FeedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedListViewController.swift; sourceTree = "<group>"; };
+		E8855AFE2476309E00F337F1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
+		E895F90124764DD500F74C4A /* DataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,8 @@
 				E834659F2475F62F001D7267 /* LaunchScreen.storyboard */,
 				E83465A22475F62F001D7267 /* Info.plist */,
 				E8855AFC2476156200F337F1 /* FeedListViewController.swift */,
+				E8855AFE2476309E00F337F1 /* DescriptionViewController.swift */,
+				E895F90124764DD500F74C4A /* DataFetcher.swift */,
 			);
 			path = RiSSole;
 			sourceTree = "<group>";
@@ -203,8 +209,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E83465992475F62B001D7267 /* FeedViewController.swift in Sources */,
+				E895F90224764DD500F74C4A /* DataFetcher.swift in Sources */,
 				E83465952475F62B001D7267 /* AppDelegate.swift in Sources */,
 				E8855AFD2476156200F337F1 /* FeedListViewController.swift in Sources */,
+				E8855AFF2476309E00F337F1 /* DescriptionViewController.swift in Sources */,
 				E83465972475F62B001D7267 /* SceneDelegate.swift in Sources */,
 				E83465B72475F6AD001D7267 /* RSSParser.swift in Sources */,
 			);

@@ -2,14 +2,14 @@ import UIKit
 import SafariServices
 
 class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    let feedURL: URL
+    let data: Data
 
     let tableView = UITableView()
     var feedInfo: [String: String]!
     var items: [[String: String]]!
 
-    init(feedURL: URL) {
-        self.feedURL = feedURL
+    init(data: Data) {
+        self.data = data
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -22,7 +22,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         title = "Article"
 
-        (feedInfo, items) = RSSParser.parse(contentsOf: feedURL)
+        (feedInfo, items) = RSSParser.parse(data: data)
 
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,6 +51,22 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
         cell.textLabel?.text = "\(items[indexPath.row]["title"]!)"
         cell.accessoryType = .detailButton
+
+
+//        let description = items[indexPath.row]["description"]
+//
+//        let regex = try? NSRegularExpression(pattern: "(<img.+?src=\"(.+?)\".+?>)", options: [])
+//        let matches = regex?.matches(in: description!, options: [], range: NSRange(location: 0, length: (description?.lengthOfBytes(using: .utf8))!))
+//        if let match = matches?.first, match.numberOfRanges > 1 {
+//            let range = match.range(at: 2)
+//            let imgURL = URL(string: NSString(string: description!).substring(with: range))!
+//
+//            let image = try? UIImage(data: Data(contentsOf: imgURL))
+//            cell.imageView?.image = image
+//        }
+
+
+
         return cell
     }
 
@@ -65,7 +81,8 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        print("\(items[indexPath.row])")
+        let descriptionViewController = DescriptionViewController(item: items[indexPath.row])
+        show(descriptionViewController, sender: self)
     }
 
 

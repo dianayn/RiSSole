@@ -11,12 +11,19 @@ import UIKit
 
 class FeedListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    let feedArray: Array = ["https://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
+    let df = DataFetcher(urlSession: URLSession.shared)
+
+    let feedArray: Array = ["zhttps://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
 
     let feedTableView = UITableView()
+    let spinner = UIActivityIndicatorView(style: .large)
+    lazy var refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refresh))
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        df.handleClientError = { error in print(error) }
+        df.handleServerError = { response in print(response) }
 
         title = "Feeds"
 
@@ -33,6 +40,9 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
 
         feedTableView.dataSource = self
         feedTableView.delegate = self
+
+        spinner.startAnimating()
+        navigationItem.rightBarButtonItem = refreshButton
     }
 
 
@@ -46,16 +56,29 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.accessoryType = .disclosureIndicator
 
 
+
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let url = URL(string: feedArray[indexPath.row])
-        let feedVC = FeedViewController(feedURL: url!)
-//        navigationController!.pushViewController(feedVC, animated: true)
-        show(feedVC, sender: self)
+        let url = URL(string: feedArray[indexPath.row])!
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
+        df.fetch(url) { [weak self] data in
+            sleep(5)
+            DispatchQueue.main.async {
+                let feedVC = FeedViewController(data: data)
+                self?.show(feedVC, sender: self)
+            }
+        }
+
+    }
+
+    @objc
+    func refresh() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
     }
 
 

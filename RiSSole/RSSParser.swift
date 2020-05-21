@@ -24,8 +24,8 @@ struct IgnoredElement: ElementProtocol {
 }
 
 class RSSParser: NSObject, XMLParserDelegate {
-    static func parse(contentsOf url: URL) -> (feedInfo: [String: String], items: [[String: String]]) {
-        guard let parser = XMLParser(contentsOf: url) else { return ([:], []) }
+    static func parse(data: Data) -> (feedInfo: [String: String], items: [[String: String]]) {
+        let parser = XMLParser(data: data)
         let delegate = RSSParser()
         parser.delegate = delegate
         parser.parse()
