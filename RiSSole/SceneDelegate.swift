@@ -1,11 +1,3 @@
-//
-//  SceneDelegate.swift
-//  RiSSole
-//
-//  Created by Matt Beshara on 21/5/20.
-//  Copyright © 2020 Matt Beshara. All rights reserved.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -19,7 +11,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        window!.rootViewController = UINavigationController(rootViewController: InitialViewController())
+        window!.rootViewController =
+            UINavigationController(rootViewController: FeedListViewController()
+//                FeedViewController(feedURL: URL(string: "http://feeds.macrumors.com/MacRumors-All")!)
+//                FeedViewController(feedURL: URL(string: "https://www.abc.net.au/news/feed/51120/rss.xml")!)
+        )
         window!.makeKeyAndVisible()
     }
 
