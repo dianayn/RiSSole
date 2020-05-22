@@ -53,17 +53,16 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.accessoryType = .detailButton
 
 
-//        let description = items[indexPath.row]["description"]
-//
-//        let regex = try? NSRegularExpression(pattern: "(<img.+?src=\"(.+?)\".+?>)", options: [])
-//        let matches = regex?.matches(in: description!, options: [], range: NSRange(location: 0, length: (description?.lengthOfBytes(using: .utf8))!))
-//        if let match = matches?.first, match.numberOfRanges > 1 {
-//            let range = match.range(at: 2)
-//            let imgURL = URL(string: NSString(string: description!).substring(with: range))!
-//
-//            let image = try? UIImage(data: Data(contentsOf: imgURL))
-//            cell.imageView?.image = image
-//        }
+        let description = NSString(string: items[indexPath.row]["description"]!)
+        let regex = try? NSRegularExpression(pattern: "(<img.+?src=\"(.+?)\".*?>)", options: [])
+        let matches = regex?.matches(in: description as String, options: [], range: NSRange(location: 0, length: description.length))
+        if let match = matches?.first, match.numberOfRanges > 1 {
+            let range = match.range(at: 2)
+            let imgURL = URL(string: NSString(string: description).substring(with: range))!
+//print(imgURL)
+            let image = try? UIImage(data: Data(contentsOf: imgURL))
+            cell.imageView?.image = image
+        }
 
 
 

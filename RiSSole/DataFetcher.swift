@@ -7,9 +7,11 @@ protocol URLSessionProtocol {
 extension URLSession: URLSessionProtocol {}
 
 protocol DataFetcherProtocol {
-    var handleClientError: (Error) ->  Void { get set }
-    var handleServerError: (URLResponse?)-> Void { get set }
-    func fetch(_ url: URL, success: @escaping (Data) -> Void)
+    func fetch(_ url: URL, success: @escaping (Data) -> Void, failure: @escaping (Error?) ->  Void)
+}
+
+struct URLResponseError: Error {
+    let response: URLResponse
 }
 
 class DataFetcher: DataFetcherProtocol {
@@ -19,18 +21,17 @@ class DataFetcher: DataFetcherProtocol {
         self.urlSession = urlSession
     }
 
-    var handleClientError: (Error) -> Void = { _ in }
-    var handleServerError: (URLResponse?)-> Void = { _ in }
-
-    func fetch(_ url: URL, success: @escaping (Data) -> Void) {
+    func fetch(_ url: URL,
+               success: @escaping (Data) -> Void,
+               failure: @escaping (Error?) ->  Void) {
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
-                self.handleClientError(error)
+                failure(error)
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
-                self.handleServerError(response)
+                    failure(response.map(URLResponseError.init))
                 return
             }
             if let data = data {
@@ -38,5 +39,17 @@ class DataFetcher: DataFetcherProtocol {
             }
         }
         task.resume()
+    }
+
+    func fetch(_ url: URL) -> Obseravble<Data, Error?> {
+        let observable = Obseravble<Data, Error?>()
+        fetch(url,
+              success: {
+                [weak observable] in observable?.next($0)
+            },
+              failure: {
+                [weak observable] in observable?.error($0)
+        })
+        return observable
     }
 }

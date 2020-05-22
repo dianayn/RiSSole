@@ -1,11 +1,3 @@
-//
-//  DescriptionViewController.swift
-//  RiSSole
-//
-//  Created by Matt Beshara on 21/5/20.
-//  Copyright © 2020 Matt Beshara. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import WebKit

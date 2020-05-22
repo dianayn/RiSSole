@@ -1,11 +1,3 @@
-//
-//  FeedListViewController.swift
-//  RiSSole
-//
-//  Created by Matt Beshara on 21/5/20.
-//  Copyright © 2020 Matt Beshara. All rights reserved.
-//
-
 import Foundation
 import UIKit
 
@@ -22,10 +14,7 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        df.handleClientError = { error in print(error) }
-        df.handleServerError = { response in print(response) }
-
-        title = "Feeds"
+                title = "Feeds"
 
         feedTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(feedTableView)
@@ -60,20 +49,36 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
+
+let bag = DisposeBag()
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let url = URL(string: feedArray[indexPath.row])!
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-        df.fetch(url) { [weak self] data in
-            sleep(5)
-            DispatchQueue.main.async {
-                let feedVC = FeedViewController(data: data)
-                self?.show(feedVC, sender: self)
-            }
-        }
 
+
+
+        let dataObservable = df.fetch(url)
+        dataObservable
+            .observe { [weak self] data in
+                print("got network data")
+                DispatchQueue.main.async {
+                    let feedVC = FeedViewController(data: data)
+                    self?.show(feedVC, sender: self)
+                }
+            }
+            .onError {
+                print("got network error")
+                print("Error: \($0)")
+            }
+        .observe {
+            print("\($0)")
+        }
+            .dispose(in: bag)
+//        print("After here, the network request should be cancelled")
     }
 
     @objc
