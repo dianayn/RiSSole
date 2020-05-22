@@ -13,9 +13,6 @@ class Observer<T> {
 
 class Observable<Value, Error> {
     var mostRecentValue: Value!
-//    init(_ initialValue: Value) {
-//        mostRecentValue = initialValue
-//    }
 
     private let observers = NSHashTable<Observer<Value>>.weakObjects()
     private let onErrors = NSHashTable<Observer<Error>>.weakObjects()
