@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E83465952475F62B001D7267 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465942475F62B001D7267 /* AppDelegate.swift */; };
 		E83465972475F62B001D7267 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465962475F62B001D7267 /* SceneDelegate.swift */; };
-		E83465992475F62B001D7267 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465982475F62B001D7267 /* FeedViewController.swift */; };
+		E83465992475F62B001D7267 /* ItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465982475F62B001D7267 /* ItemListViewController.swift */; };
 		E834659E2475F62F001D7267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E834659D2475F62F001D7267 /* Assets.xcassets */; };
 		E83465A12475F62F001D7267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E834659F2475F62F001D7267 /* LaunchScreen.storyboard */; };
 		E83465AC2475F630001D7267 /* RiSSoleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83465AB2475F630001D7267 /* RiSSoleTests.swift */; };
@@ -19,6 +19,8 @@
 		E895F90224764DD500F74C4A /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F90124764DD500F74C4A /* DataFetcher.swift */; };
 		E895F904247746E300F74C4A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F903247746E300F74C4A /* Observable.swift */; };
 		E895F9062477658C00F74C4A /* DescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F9052477658C00F74C4A /* DescriptionViewModel.swift */; };
+		E895F90824778B7D00F74C4A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F90724778B7D00F74C4A /* Router.swift */; };
+		E895F90A2477A4B700F74C4A /* ItemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F9092477A4B700F74C4A /* ItemListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +37,7 @@
 		E83465912475F62B001D7267 /* RiSSole.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiSSole.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E83465942475F62B001D7267 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E83465962475F62B001D7267 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E83465982475F62B001D7267 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		E83465982475F62B001D7267 /* ItemListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListViewController.swift; sourceTree = "<group>"; };
 		E834659D2475F62F001D7267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E83465A02475F62F001D7267 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E83465A22475F62F001D7267 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,6 +50,8 @@
 		E895F90124764DD500F74C4A /* DataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
 		E895F903247746E300F74C4A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		E895F9052477658C00F74C4A /* DescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewModel.swift; sourceTree = "<group>"; };
+		E895F90724778B7D00F74C4A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		E895F9092477A4B700F74C4A /* ItemListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +96,7 @@
 				E83465B62475F6AD001D7267 /* RSSParser.swift */,
 				E83465942475F62B001D7267 /* AppDelegate.swift */,
 				E83465962475F62B001D7267 /* SceneDelegate.swift */,
-				E83465982475F62B001D7267 /* FeedViewController.swift */,
+				E83465982475F62B001D7267 /* ItemListViewController.swift */,
 				E834659D2475F62F001D7267 /* Assets.xcassets */,
 				E834659F2475F62F001D7267 /* LaunchScreen.storyboard */,
 				E83465A22475F62F001D7267 /* Info.plist */,
@@ -101,6 +105,8 @@
 				E895F90124764DD500F74C4A /* DataFetcher.swift */,
 				E895F903247746E300F74C4A /* Observable.swift */,
 				E895F9052477658C00F74C4A /* DescriptionViewModel.swift */,
+				E895F90724778B7D00F74C4A /* Router.swift */,
+				E895F9092477A4B700F74C4A /* ItemListViewModel.swift */,
 			);
 			path = RiSSole;
 			sourceTree = "<group>";
@@ -215,12 +221,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E895F904247746E300F74C4A /* Observable.swift in Sources */,
-				E83465992475F62B001D7267 /* FeedViewController.swift in Sources */,
+				E83465992475F62B001D7267 /* ItemListViewController.swift in Sources */,
+				E895F90824778B7D00F74C4A /* Router.swift in Sources */,
 				E895F90224764DD500F74C4A /* DataFetcher.swift in Sources */,
 				E83465952475F62B001D7267 /* AppDelegate.swift in Sources */,
 				E8855AFD2476156200F337F1 /* FeedListViewController.swift in Sources */,
 				E895F9062477658C00F74C4A /* DescriptionViewModel.swift in Sources */,
 				E8855AFF2476309E00F337F1 /* DescriptionViewController.swift in Sources */,
+				E895F90A2477A4B700F74C4A /* ItemListViewModel.swift in Sources */,
 				E83465972475F62B001D7267 /* SceneDelegate.swift in Sources */,
 				E83465B72475F6AD001D7267 /* RSSParser.swift in Sources */,
 			);

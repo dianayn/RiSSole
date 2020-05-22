@@ -1,7 +1,7 @@
 import UIKit
 import SafariServices
 
-class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ItemListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let data: Data
 
     let tableView = UITableView()

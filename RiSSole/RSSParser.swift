@@ -1,5 +1,18 @@
 import UIKit
 
+public struct Feed {
+    fileprivate(set) var link: String?
+    fileprivate(set) var title: String?
+    fileprivate(set) var items: [Item] = []
+
+    public struct Item {
+        fileprivate(set) var link: String?
+        fileprivate(set) var title: String?
+        fileprivate(set) var pubDate: String?
+        fileprivate(set) var description: String?
+    }
+}
+
 protocol ElementProtocol {}
 enum Element: String, ElementProtocol {
     case rss
@@ -24,23 +37,21 @@ struct IgnoredElement: ElementProtocol {
 }
 
 class RSSParser: NSObject, XMLParserDelegate {
-    static func parse(data: Data) -> (feedInfo: [String: String], items: [[String: String]]) {
+    static func parse(data: Data) -> Feed? {
         let parser = XMLParser(data: data)
         let delegate = RSSParser()
         parser.delegate = delegate
         parser.parse()
-        return (delegate.feedInfo, delegate.items)
+        return delegate.feed
     }
 
-    var feedInfo: [String: String] = [:]
-    var items: [[String: String]] = []
-    var currentItem: [String: String] = [:]
+    var feed: Feed?
+    var currentItem = Feed.Item()
 
     private var containerElement: ElementProtocol?
 
     func parserDidStartDocument(_ parser: XMLParser) {
-        feedInfo = [:]
-        items = []
+        feed = Feed()
     }
 
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
@@ -85,19 +96,19 @@ class RSSParser: NSObject, XMLParserDelegate {
             containerElement = ignoredElement.container
         } else if let element = containerElement as? Element.RSS.Channel.Item {
             switch element {
-            case .description: currentItem[Element.RSS.Channel.Item.description.rawValue] = partialString
-            case .link: currentItem[Element.RSS.Channel.Item.link.rawValue] = partialString
-            case .pubDate: currentItem[Element.RSS.Channel.Item.pubDate.rawValue] = partialString
-            case .title: currentItem[Element.RSS.Channel.Item.title.rawValue] = partialString
+            case .description: currentItem.description = partialString
+            case .link: currentItem.link = partialString
+            case .pubDate: currentItem.pubDate = partialString
+            case .title: currentItem.title = partialString
             }
             containerElement = Element.RSS.Channel.item
         } else if let element = containerElement as? Element.RSS.Channel {
             switch element {
-            case .link: feedInfo[Element.RSS.Channel.link.rawValue] = partialString
-            case .title: feedInfo[Element.RSS.Channel.title.rawValue] = partialString
+            case .link: feed?.link = partialString
+            case .title: feed?.title = partialString
             case .item:
-                items.append(currentItem)
-                currentItem = [:]
+                feed?.items.append(currentItem)
+                currentItem = Feed.Item()
             }
             containerElement = Element.RSS.channel
         } else if containerElement is Element.RSS {

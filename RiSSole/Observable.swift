@@ -12,13 +12,13 @@ class Observer<T> {
 }
 
 class Observable<Value, Error> {
-    var mostRecentValue: Value
-    init(_ initialValue: Value) {
-        mostRecentValue = initialValue
-    }
+    var mostRecentValue: Value!
+//    init(_ initialValue: Value) {
+//        mostRecentValue = initialValue
+//    }
 
-    let observers = NSHashTable<Observer<Value>>.weakObjects()
-    let onErrors = NSHashTable<Observer<Error>>.weakObjects()
+    private let observers = NSHashTable<Observer<Value>>.weakObjects()
+    private let onErrors = NSHashTable<Observer<Error>>.weakObjects()
 
     func next(_ value: Value) {
         mostRecentValue = value
@@ -30,7 +30,10 @@ class Observable<Value, Error> {
     }
 
     func observe(_ closure: @escaping (Value) -> Void) -> DisposableClosure<Value, Error> {
-        closure(mostRecentValue)
+        if let mostRecentValue = mostRecentValue {
+            closure(mostRecentValue)
+        }
+
         let observer = Observer(closure)
         observers.add(observer)
         return DisposableClosure(self, observer)
@@ -41,6 +44,14 @@ class Observable<Value, Error> {
         onErrors.add(onError)
         return DisposableClosure(self, onError)
     }
+
+//    func map<X>(_ closure: @escaping (Value) -> X) -> Observable<X, Error> {
+//        let newObservable = Observable<X, Error>(closure(mostRecentValue))
+//
+//        // this is wrong
+//        observe { newObservable.next(closure($0)) }
+//        return newObservable
+//    }
 
     deinit {
         print("\(self)")
@@ -85,7 +96,7 @@ class DisposeBag {
     func add(_ disposable: Disposable) {
         disposables.append(disposable)
     }
-    
+
     deinit {
         print("\(self)")
     }

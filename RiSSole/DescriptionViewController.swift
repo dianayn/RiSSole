@@ -31,7 +31,6 @@ class DescriptionViewController: UIViewController {
     }
 
     func update(_ viewModel: DescriptionViewModel) {
-
         viewModel.title.observe { [weak self] in
             self?.title = $0
         }.dispose(in: bag)
@@ -40,5 +39,4 @@ class DescriptionViewController: UIViewController {
             self?.webView.loadHTMLString($0, baseURL: nil)
         }.dispose(in: bag)
     }
-
 }

@@ -3,10 +3,21 @@ import UIKit
 
 class FeedListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    var router: Routable!
+
+//    init(router: Router) {
+//        self.router = router
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+
     let df = DataFetcher(urlSession: URLSession.shared)
     let bag = DisposeBag()
 
-    let feedArray: Array = ["zhttps://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
+    let feedArray: Array = ["https://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
 
     let feedTableView = UITableView()
     let spinner = UIActivityIndicatorView(style: .large)
@@ -66,11 +77,11 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
             .observe { [weak self] data in
                 print("got network data")
                 DispatchQueue.main.async {
-                    let feedVC = FeedViewController(data: data)
-                    self?.show(feedVC, sender: self)
+                    self?.router.map {
+                        self?.router.route(to: .itemList(viewModel: ItemListViewModel(router: $0, data: data)))
+                    }
                 }
             }
-
             .dispose(in: bag)
 //        print("After here, the network request should be cancelled")
     }
