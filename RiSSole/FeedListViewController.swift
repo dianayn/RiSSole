@@ -6,7 +6,7 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
     let df = DataFetcher(urlSession: URLSession.shared)
     let bag = DisposeBag()
 
-    let feedArray: Array = ["https://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
+    let feedArray: Array = ["zhttps://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
 
     let feedTableView = UITableView()
     let spinner = UIActivityIndicatorView(style: .large)
@@ -59,6 +59,10 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
 
         let dataObservable = df.fetch(url)
         dataObservable
+            .onError {
+                print("got network error")
+                print("Error: \($0)")
+            }
             .observe { [weak self] data in
                 print("got network data")
                 DispatchQueue.main.async {
@@ -66,13 +70,7 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
                     self?.show(feedVC, sender: self)
                 }
             }
-            .onError {
-                print("got network error")
-                print("Error: \($0)")
-            }
-        .observe {
-            print("\($0)")
-        }
+
             .dispose(in: bag)
 //        print("After here, the network request should be cancelled")
     }

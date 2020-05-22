@@ -3,13 +3,11 @@ import UIKit
 import WebKit
 
 class DescriptionViewController: UIViewController {
-
-    var item: [String: String]
+    let bag = DisposeBag()
 
     var webView = WKWebView()
 
-    init(item: [String: String]) {
-        self.item = item
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -19,8 +17,6 @@ class DescriptionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        title = item["title"]
 
         webView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -32,10 +28,17 @@ class DescriptionViewController: UIViewController {
             webView.leftAnchor.constraint(equalTo: view.leftAnchor),
             webView.rightAnchor.constraint(equalTo: view.rightAnchor)])
 
-
-        let html = "<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\"</head><body>" + item["description"]! + "</body></html>"
-        webView.loadHTMLString(html, baseURL: nil)
     }
 
+    func update(_ viewModel: DescriptionViewModel) {
+
+        viewModel.title.observe { [weak self] in
+            self?.title = $0
+        }.dispose(in: bag)
+
+        viewModel.html.observe { [weak self] in
+            self?.webView.loadHTMLString($0, baseURL: nil)
+        }.dispose(in: bag)
+    }
 
 }

@@ -84,17 +84,19 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        let url = URL(string: items[indexPath.row]["link"]!)!
-        let safariViewController = SFSafariViewController(url: url)
-        safariViewController.modalPresentationStyle = .formSheet
-//        show(safariViewController, sender: self)
-        present(safariViewController, animated: true)
+        let item = items[indexPath.row]
+        let descriptionViewModel = DescriptionViewModel(title: item["title"], description: item["description"])
+        let descriptionViewController = DescriptionViewController()
+        descriptionViewController.update(descriptionViewModel)
+        show(descriptionViewController, sender: self)
     }
 
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let descriptionViewController = DescriptionViewController(item: items[indexPath.row])
-        show(descriptionViewController, sender: self)
+         let url = URL(string: items[indexPath.row]["link"]!)!
+                let safariViewController = SFSafariViewController(url: url)
+                safariViewController.modalPresentationStyle = .formSheet
+        //        show(safariViewController, sender: self)
+                present(safariViewController, animated: true)
     }
 
 

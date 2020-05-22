@@ -85,8 +85,20 @@ class DisposeBag {
     func add(_ disposable: Disposable) {
         disposables.append(disposable)
     }
-    
+
     deinit {
         print("\(self)")
     }
 }
+
+
+let bag = DisposeBag()
+
+let observable = Observable<String, Never>("blah")
+observable.next("bling")
+print("no observers yet...")
+observable.observe { print("i'm number 1: \($0)") } /// .dispose(in: bag)
+observable.next("bloo")
+observable.observe { print("second is best: \($0)") }
+observable.next("blorp")
+

@@ -18,6 +18,7 @@
 		E8855AFF2476309E00F337F1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8855AFE2476309E00F337F1 /* DescriptionViewController.swift */; };
 		E895F90224764DD500F74C4A /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F90124764DD500F74C4A /* DataFetcher.swift */; };
 		E895F904247746E300F74C4A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F903247746E300F74C4A /* Observable.swift */; };
+		E895F9062477658C00F74C4A /* DescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895F9052477658C00F74C4A /* DescriptionViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		E8855AFE2476309E00F337F1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		E895F90124764DD500F74C4A /* DataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
 		E895F903247746E300F74C4A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		E895F9052477658C00F74C4A /* DescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				E8855AFE2476309E00F337F1 /* DescriptionViewController.swift */,
 				E895F90124764DD500F74C4A /* DataFetcher.swift */,
 				E895F903247746E300F74C4A /* Observable.swift */,
+				E895F9052477658C00F74C4A /* DescriptionViewModel.swift */,
 			);
 			path = RiSSole;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				E895F90224764DD500F74C4A /* DataFetcher.swift in Sources */,
 				E83465952475F62B001D7267 /* AppDelegate.swift in Sources */,
 				E8855AFD2476156200F337F1 /* FeedListViewController.swift in Sources */,
+				E895F9062477658C00F74C4A /* DescriptionViewModel.swift in Sources */,
 				E8855AFF2476309E00F337F1 /* DescriptionViewController.swift in Sources */,
 				E83465972475F62B001D7267 /* SceneDelegate.swift in Sources */,
 				E83465B72475F6AD001D7267 /* RSSParser.swift in Sources */,
