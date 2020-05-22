@@ -8,6 +8,9 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var feedInfo: [String: String]!
     var items: [[String: String]]!
 
+    let df = DataFetcher(urlSession: URLSession.shared)
+    let bag = DisposeBag()
+
     init(data: Data) {
         self.data = data
         super.init(nibName: nil, bundle: nil)
@@ -60,8 +63,18 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let range = match.range(at: 2)
             let imgURL = URL(string: NSString(string: description).substring(with: range))!
 //print(imgURL)
-            let image = try? UIImage(data: Data(contentsOf: imgURL))
-            cell.imageView?.image = image
+
+            df.fetch(imgURL)
+                .observe {
+                    let image = UIImage(data: $0)
+                    DispatchQueue.main.async {
+                        cell.imageView?.image = image
+                        cell.setNeedsLayout()
+                    }
+                }
+               .dispose(in: bag)
+
+
         }
 
 

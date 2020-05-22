@@ -4,8 +4,9 @@ import UIKit
 class FeedListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let df = DataFetcher(urlSession: URLSession.shared)
+    let bag = DisposeBag()
 
-    let feedArray: Array = ["zhttps://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
+    let feedArray: Array = ["https://www.abc.net.au/news/feed/51120/rss.xml", "https://feeds.macrumors.com/MacRumors-All"]
 
     let feedTableView = UITableView()
     let spinner = UIActivityIndicatorView(style: .large)
@@ -49,17 +50,12 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
-
-let bag = DisposeBag()
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let url = URL(string: feedArray[indexPath.row])!
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-
-
 
         let dataObservable = df.fetch(url)
         dataObservable

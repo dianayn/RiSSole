@@ -5,30 +5,38 @@ class Observer<T> {
     init(_ closure: @escaping (T) -> Void) {
         self.closure = closure
     }
+
+    deinit {
+        print("\(self)")
+    }
 }
 
-class Obseravble<T, U> {
-    let observers = NSHashTable<Observer<T>>()
-    let onErrors = NSHashTable<Observer<U>>()
+class Obseravble<Value, Error> {
+    let observers = NSHashTable<Observer<Value>>.weakObjects()
+    let onErrors = NSHashTable<Observer<Error>>.weakObjects()
 
-    func next(_ value: T) {
+    func next(_ value: Value) {
         observers.allObjects.forEach { $0.closure(value) }
     }
 
-    func error(_ error: U) {
+    func error(_ error: Error) {
         onErrors.allObjects.forEach { $0.closure(error) }
     }
 
-    func observe(_ closure: @escaping (T) -> Void) -> Disposable<T, U> {
+    func observe(_ closure: @escaping (Value) -> Void) -> Disposable<Value, Error> {
         let observer = Observer(closure)
         observers.add(observer)
         return Disposable(self, observer)
     }
 
-    func onError(_ closure: @escaping (U) -> Void) -> Disposable<T, U> {
+    func onError(_ closure: @escaping (Error) -> Void) -> Disposable<Value, Error> {
         let onError = Observer(closure)
         onErrors.add(onError)
         return Disposable(self, onError)
+    }
+
+    deinit {
+        print("\(self)")
     }
 }
 
@@ -53,11 +61,19 @@ class Disposable<T, U> {
         _ = observable.onError(closure)
         return self
     }
+
+    deinit {
+        print("\(self)")
+    }
 }
 
 class DisposeBag {
     var disposables = NSMutableSet()
     func add(_ disposable: Any) {
         disposables.add(disposable)
+    }
+
+    deinit {
+        print("\(self)")
     }
 }
