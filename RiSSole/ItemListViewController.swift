@@ -97,6 +97,8 @@ class ItemListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self?.descriptionViewModels = $0
             }
             .dispose(in: bag)
+
+        viewModel.errorStream.observe { print("error: \($0)") }.dispose(in: bag)
     }
 }
 

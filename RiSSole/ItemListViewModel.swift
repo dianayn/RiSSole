@@ -20,9 +20,9 @@ extension String {
 }
 
 class ItemViewModel {
-    let link = Observable<URL, Never>()
-    let title = Observable<String, Never>()
-    let image = Observable<UIImage, Never>()
+    let link = Observable<URL>()
+    let title = Observable<String>()
+    let image = Observable<UIImage>()
     var open: () -> Void = {}
 
     let router: Routable
@@ -34,13 +34,13 @@ class ItemViewModel {
         feedItem.link.map { URL(string: $0).map(link.next) }
         feedItem.title.map(title.next)
         if let imageURL = feedItem.description?.findImageURL() {
-            dataFetcher.fetch(imageURL)
-                .observe { [weak self] in
-                    if let self = self, let image = UIImage(data: $0) {
-                        self.image.next(image)
-                    }
+            let (dataObservable, errorObservable) = dataFetcher.fetch(imageURL)
+            dataObservable.observe { [weak self] in
+                if let self = self, let image = UIImage(data: $0) {
+                    self.image.next(image)
                 }
-               .dispose(in: bag)
+            }.dispose(in: bag)
+            errorObservable.observe { print("error: \(String(describing: $0))") }.dispose(in: bag)
         }
 
         link.observe { [weak self] link in
@@ -51,10 +51,11 @@ class ItemViewModel {
 }
 
 class ItemListViewModel {
-    let feed = Observable<Feed, RSSParserError>()
-    let items = Observable<[Feed.Item], RSSParserError>()
-    let itemViewModels = Observable<[ItemViewModel], RSSParserError>()
-    let descriptionViewModels = Observable<[DescriptionViewModel], RSSParserError>()
+    let feed = Observable<Feed>()
+    let items = Observable<[Feed.Item]>()
+    let itemViewModels = Observable<[ItemViewModel]>()
+    let descriptionViewModels = Observable<[DescriptionViewModel]>()
+    let errorStream = Observable<RSSParserError>()
 
     let router: Routable
     let bag = DisposeBag()
@@ -64,15 +65,11 @@ class ItemListViewModel {
         if let feedModel = RSSParser.parse(data: data) {
             feed.next(feedModel)
         } else {
-            feed.error(RSSParserError())
+            errorStream.next(RSSParserError())
         }
 
         feed.observe { [weak self] in
             self?.items.next($0.items)
-        }.dispose(in: bag)
-
-        feed.onError { [weak self] in
-            self?.items.error($0)
         }.dispose(in: bag)
 
         items.observe { [weak self] in
@@ -81,18 +78,10 @@ class ItemListViewModel {
             })
         }.dispose(in: bag)
 
-        items.onError { [weak self] in
-            self?.itemViewModels.error($0)
-        }.dispose(in: bag)
-
         items.observe { [weak self] in
             self?.descriptionViewModels.next($0.map {
                 DescriptionViewModel(router: router, feedItem: $0)
             })
-        }.dispose(in: bag)
-
-        items.onError { [weak self] in
-            self?.descriptionViewModels.error($0)
         }.dispose(in: bag)
     }
 }

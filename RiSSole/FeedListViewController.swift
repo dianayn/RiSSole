@@ -68,21 +68,22 @@ class FeedListViewController: UIViewController, UITableViewDataSource, UITableVi
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
 
-        let dataObservable = df.fetch(url)
-        dataObservable
-            .onError {
-                print("got network error")
-                print("Error: \($0)")
-            }
-            .observe { [weak self] data in
-                print("got network data")
-                DispatchQueue.main.async {
-                    self?.router.map {
-                        self?.router.route(to: .itemList(viewModel: ItemListViewModel(router: $0, data: data)))
-                    }
+        let (dataObservable, errorObservable) = df.fetch(url)
+
+        dataObservable.observe { [weak self] data in
+            print("got network data")
+            DispatchQueue.main.async {
+                self?.router.map {
+                    self?.router.route(to: .itemList(viewModel: ItemListViewModel(router: $0, data: data)))
                 }
             }
-            .dispose(in: bag)
+        }.dispose(in: bag)
+
+        errorObservable.observe {
+            print("got network error")
+            print("Error: \(String(describing: $0))")
+        }.dispose(in: bag)
+
 //        print("After here, the network request should be cancelled")
     }
 

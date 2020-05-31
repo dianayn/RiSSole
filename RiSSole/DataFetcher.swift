@@ -41,15 +41,16 @@ class DataFetcher: DataFetcherProtocol {
         task.resume()
     }
 
-    func fetch(_ url: URL) -> Observable<Data, Error?> {
-        let observable = Observable<Data, Error?>()
+    func fetch(_ url: URL) -> (Observable<Data>, Observable<Error?>) {
+        let dataObservable = Observable<Data>()
+        let errorObservable = Observable<Error?>()
         fetch(url,
               success: {
-                [weak observable] in observable?.next($0)
+                [weak dataObservable] in dataObservable?.next($0)
             },
               failure: {
-                [weak observable] in observable?.error($0)
+                [weak errorObservable] in errorObservable?.next($0)
         })
-        return observable
+        return (dataObservable, errorObservable)
     }
 }

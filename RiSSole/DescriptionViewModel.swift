@@ -1,9 +1,9 @@
 import Foundation
 
 class DescriptionViewModel {
-    let title = Observable<String, Never>()
-    let description = Observable<String, Never>()
-    let html = Observable<String, Never>()
+    let title = Observable<String>()
+    let description = Observable<String>()
+    let html = Observable<String>()
 
     let router: Routable
     let bag = DisposeBag()
