@@ -39,7 +39,7 @@ class Observable<Value> {
 }
 
 class Disposable: NSObject {
-    let references: Any
+    let references: [Any]
     init(_ references: Any...) {
         self.references = references
     }
