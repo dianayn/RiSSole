@@ -5,9 +5,9 @@ class Observer<T> {
     init(_ closure: @escaping (T) -> Void) {
         self.closure = closure
     }
-
+    
     deinit {
-        print("deinit: \(self)")
+            print("deinit: \(self)")
     }
 }
 
@@ -32,9 +32,9 @@ class Observable<Value> {
         observers.add(observer)
         return Disposable(self, observer)
     }
-
+    
     deinit {
-        print("deinit: \(self)")
+            print("deinit: \(self)")
     }
 }
 
@@ -47,26 +47,15 @@ class Disposable: NSObject {
     func dispose(in bag: DisposeBag) {
         bag.add(self)
     }
-
+    
     deinit {
-        print("deinit: \(self)")
+            print("deinit: \(self)")
     }
 }
 
-class DisposeBag {
-    var disposables = NSMutableSet()
-    func add(_ disposable: Disposable) {
-        disposables.add(disposable)
-    }
+typealias DisposeBag = NSMutableSet
 
-    func empty() {
-        disposables = []
-    }
 
-    deinit {
-        print("deinit: \(self)")
-    }
-}
 
 
 print("creating bag1")
@@ -113,12 +102,12 @@ observeStuff(
     )
 
 print("emptying bag1. observations should only run once now")
-bag1.empty()
+bag1.removeAllObjects()
 
 print("scheduling empty of bag 2")
 q.asyncAfter(deadline: DispatchTime.now() + 2) {
     print("\nemptying bag2. remaining stuff should now deinit")
-    bag2.empty()
+    bag2.removeAllObjects()
 }
 
 print("running runloop")

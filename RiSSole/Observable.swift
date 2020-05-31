@@ -41,13 +41,4 @@ class Disposable: NSObject {
     }
 }
 
-class DisposeBag {
-    var disposables = NSMutableSet()
-    func add(_ disposable: Disposable) {
-        disposables.add(disposable)
-    }
-
-    func empty() {
-        disposables = []
-    }
-}
+typealias DisposeBag = NSMutableSet
